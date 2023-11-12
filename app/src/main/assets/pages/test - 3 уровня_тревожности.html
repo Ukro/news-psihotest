@@ -1,0 +1,177 @@
+﻿<html>
+<head>
+	<meta charset="utf-8">
+	<title>Тести</title>
+</head>
+<body>
+
+<style>
+
+table {
+    width: 600px; /* Ширина таблицы */
+    border: 0px solid green; /* Рамка вокруг таблицы */
+    margin: auto; /* Выравниваем таблицу по центру окна  */
+    font-size: 60px; /* шрифт розмір*/
+   }
+
+.form_radio_btn {
+	display: inline-block;
+	margin-right: 10px;
+
+}
+.form_radio_btn input[type=radio] {
+	display: none;
+
+}
+.form_radio_btn label {/* кнопка текст*/
+	display: inline-block;
+	cursor: pointer;
+	padding: 40px 15px;
+	line-height: 140px;
+	border: 10px solid #999;
+	border-radius: 40px;
+	user-select: none;
+	width: 490px;
+	text-align:center;
+
+               
+        
+}
+.form_radio_btn input[type=radio]:checked + label {
+	background: #ffe0a6;
+
+}
+.form_radio_btn label:hover {
+	color: #666;
+
+}
+</style>
+
+<table id="tbl_contents">
+</table>
+<br>
+<span id="_r2"></span>
+<script>
+var _result2 = document.getElementById('_r2');
+var _out = document.getElementById('tbl_contents');
+
+var _questions = [];
+var _q_num = 0;
+var _all_points = 0;
+var _show_result = false;
+let _r = 0;
+
+if (checkIfDone()){
+	_result2.innerHTML = 'Ви вже пройшли тест.<br>Ваш резульат ' + _all_points + ' бал.';
+}else{
+	fill_questions();
+	showQNum(_q_num);
+}
+
+function checkIfDone(){
+	return false;
+	var _mytest = localStorage.getItem('mytestresult');
+	if (_mytest !== null){
+		_all_points = _mytest;
+		return true;
+	}
+	return false;
+}
+
+function showQNum(num){
+	var _t = "";
+	_t = "<tr><td>" + _questions[num][0] + "<br><br></td></tr>";
+	for (i=0;i<_questions[num][1].length;i++){
+		_t += "<tr><td><div class=\"form_radio_btn\"><input type=\"radio\" name =\"q1\" id =\"ans"+i+"\" onclick=\"ans_clicked(this);\"data-value='" + _questions[num][2][i] + "'>" +	
+			"<label for=\"ans"+i+"\">" + _questions[num][1][i] + "</label></div></td></tr>";
+	}
+	_out.innerHTML = _t;
+}
+
+function showResulMessage(r){
+	let _message = "";
+	if (r >=0 && r <=5){
+		_message = '<p align="center"><span style="font-weight: bold; font-size: 120px">У вас низкий уровень тревоги</font></p>';
+	}else if(r >=6 && r <=25){
+		_message = '<p align="center"><span style="font-weight: bold; font-size: 120px">У вас средний уровень тревоги</font></p>';
+	}else if(r >=26 && r <=40){
+		_message = '<p align="center"><span style="font-weight: bold; font-size: 120px">У вас високий уровень тревоги</font></p>';
+	}else{
+		_message = '<p align="center"><span style="font-weight: bold; font-size: 120px">У вас очень високий уровень тревоги</font></p>';
+	}
+	return _message;
+}
+
+function ans_clicked(_radio){
+	_r += parseInt(_radio.dataset.value);
+	_all_points = _r;
+	
+	_q_num++;
+	if (_q_num < _questions.length && !_show_result){
+		showQNum(_q_num);
+	}else{
+		_show_result = true;	
+		_result2.innerHTML = showResulMessage(_r);
+		_out.style.display = "none";
+		localStorage.setItem('mytestresult', _r);		
+	}
+}
+
+function fill_questions(){
+	_questions.push(["Обычно я спокоен и вывести меня из себя нелегко",["Да","Нет"],[0,1]]);
+	_questions.push(["Мои нервы расстроены не более, чем у других людей.",["Да","Нет"],[0,1]]);
+	_questions.push(["У меня редко бывают запоры",["Да","Нет"],[0,1]]);
+	_questions.push(["У меня редко бывают головные боли.",["Да","Нет"],[0,1]]);
+	_questions.push(["Я редко устаю.",["Да","Нет"],[0,1]]);
+	_questions.push(["Я почти всегда чувствую себя вполне счастливым",["Да","Нет"],[0,1]]);
+	_questions.push(["Я уверен в себе.",["Да","Нет"],[0,1]]);
+	_questions.push(["Практически я никогда не краснею",["Да","Нет"],[0,1]]);
+	_questions.push(["По сравнению со своими друзьями я считаю себя вполне смелым человеком",["Да","Нет"],[0,1]]);
+	_questions.push(["Я краснею не чаще, чем другие.",["Да","Нет"],[0,1]]);
+	_questions.push(["У меня редко бывает сердцебиение",["Да","Нет"],[0,1]]);
+	_questions.push(["Обычно мои руки достаточно теплые",["Да","Нет"],[0,1]]);
+	_questions.push(["Я застенчив не более чем другие.",["Да","Нет"],[0,1]]);
+	_questions.push(["Мне не хватает уверенности в себе",["Да","Нет"],[1,0]]);
+	_questions.push(["Порой мне кажется, что я ни на что не годен.",["Да","Нет"],[1,0]]);
+	_questions.push(["У меня бывают периоды такого беспокойства, что я не могу усидеть на месте.",["Да","Нет"],[1,0]]);
+	_questions.push(["Мой желудок сильно беспокоит меня.",["Да","Нет"],[1,0]]);
+	_questions.push(["У меня не хватает духа вынести все предстоящие трудности.",["Да","Нет"],[1,0]]);	
+	_questions.push(["Я хотел бы быть таким же счастливым, как другие",["Да","Нет"],[1,0]]);
+	_questions.push(["Мне кажется порой, что передо мной нагромождены такие трудности, которые мне не преодолеть.",["Да","Нет"],[1,0]]);
+	_questions.push(["Мне нередко снятся кошмарные сны.",["Да","Нет"],[1,0]]);
+	_questions.push(["Я замечаю, что мои руки начинают дрожать, когда я пытаюсь что-либо сделать.",["Да","Нет"],[1,0]]);
+	_questions.push(["У меня чрезвычайно беспокойный и прерывистый сон",["Да","Нет"],[1,0]]);
+	_questions.push(["Меня весьма тревожат возможные неудачи.",["Да","Нет"],[1,0]]);
+	_questions.push(["Мне приходилось испытывать страх в тех случаях, когда я точно знал, что мне ничто не угрожает.",["Да","Нет"],[1,0]]);
+	_questions.push(["Мне трудно сосредоточиться на работе или на каком-либо задании",["Да","Нет"],[1,0]]);
+	_questions.push(["Я работаю с большим напряжением.",["Да","Нет"],[1,0]]);
+	_questions.push(["Я легко прихожу в замешательство.",["Да","Нет"],[1,0]]);
+	_questions.push(["Почти все время испытываю тревогу из-за кого-либо или из-за чего-либо.",["Да","Нет"],[1,0]]);
+	_questions.push(["Я склонен принимать все слишком серьезно.",["Да","Нет"],[1,0]]);
+	_questions.push(["Я часто плачу.",["Да","Нет"],[1,0]]);
+	_questions.push(["Меня нередко мучают приступы рвоты и тошноты.",["Да","Нет"],[1,0]]);
+	_questions.push(["Меня нередко мучают приступы рвоты и тошноты.",["Да","Нет"],[1,0]]);
+	_questions.push(["Я часто боюсь, что вот-вот покраснею.",["Да","Нет"],[1,0]]);
+	_questions.push(["Мне очень трудно сосредоточиться на чем-либо",["Да","Нет"],[1,0]]);
+	_questions.push(["Мое материальное положение весьма беспокоит меня",["Да","Нет"],[1,0]]);
+	_questions.push(["Нередко я думаю о таких вещах, о которых ни с кем не хотелось бы говорить.",["Да","Нет"],[1,0]]);
+	_questions.push(["У меня бывали периоды, когда тревога лишала меня сна",["Да","Нет"],[1,0]]);
+	_questions.push(["Временами, когда я нахожусь в замешательстве, у меня появляется сильная потливость, что очень смущает меня",["Да","Нет"],[1,0]]);
+	_questions.push(["Даже в холодные дни я легко потею.",["Да","Нет"],[1,0]]);	
+	_questions.push(["Временами я становлюсь таким возбужденным, что мне трудно заснуть.",["Да","Нет"],[1,0]]);
+	_questions.push(["Я — человек легковозбудимый",["Да","Нет"],[1,0]]);
+	_questions.push(["Временами я чувствую себя совершенно бесполезным",["Да","Нет"],[1,0]]);
+	_questions.push(["Порой мне кажется, что мои нервы сильно расшатаны, и я вот-вот выйду из себя.",["Да","Нет"],[1,0]]);
+	_questions.push(["Я часто ловлю себя на том, что меня что-то тревожит.",["Да","Нет"],[1,0]]);
+	_questions.push(["Я гораздо чувствительнее, чем большинство других людей.",["Да","Нет"],[1,0]]);	
+	_questions.push(["Я почти все время испытываю чувство голода.",["Да","Нет"],[1,0]]);
+	_questions.push(["Я обычно чувствую себя неуютно в окружении незнакомых людей.",["Да","Нет"],[1,0]]);
+	_questions.push(["Жизнь для меня связана с необычным напряжением",["Да","Нет"],[1,0]]);
+	_questions.push(["Ожидание всегда нервирует меня.",["Да","Нет"],[1,0]]);
+
+
+
+}
+</script>
+</body>
+</html>

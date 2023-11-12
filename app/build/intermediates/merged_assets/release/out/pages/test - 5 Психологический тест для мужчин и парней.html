@@ -1,0 +1,136 @@
+﻿<html>
+<head>
+	<meta charset="utf-8">
+	<title>Тести</title>
+</head>
+<body>
+
+<style>
+
+table {
+    width: 600px; /* Ширина таблицы */
+    border: 0px solid green; /* Рамка вокруг таблицы */
+    margin: auto; /* Выравниваем таблицу по центру окна  */
+    font-size: 60px; /* шрифт розмір*/
+   }
+
+.form_radio_btn {
+	display: inline-block;
+	margin-right: 10px;
+
+}
+.form_radio_btn input[type=radio] {
+	display: none;
+
+}
+.form_radio_btn label {/* кнопка текст*/
+	display: inline-block;
+	cursor: pointer;
+	padding: 40px 15px;
+	line-height: 140px;
+	border: 10px solid #999;
+	border-radius: 40px;
+	user-select: none;
+	width: 490px;
+	text-align:center;
+
+               
+        
+}
+.form_radio_btn input[type=radio]:checked + label {
+	background: #ffe0a6;
+
+}
+.form_radio_btn label:hover {
+	color: #666;
+
+}
+</style>
+
+<table id="tbl_contents">
+</table>
+<br>
+<span id="_r2"></span>
+<script>
+var _result2 = document.getElementById('_r2');
+var _out = document.getElementById('tbl_contents');
+
+var _questions = [];
+var _q_num = 0;
+var _all_points = 0;
+var _show_result = false;
+let _r = 0;
+
+if (checkIfDone()){
+	_result2.innerHTML = 'Ви вже пройшли тест.<br>Ваш резульат ' + _all_points + ' бал.';
+}else{
+	fill_questions();
+	showQNum(_q_num);
+}
+
+function checkIfDone(){
+	return false;
+	var _mytest = localStorage.getItem('mytestresult');
+	if (_mytest !== null){
+		_all_points = _mytest;
+		return true;
+	}
+	return false;
+}
+
+function showQNum(num){
+	var _t = "";
+	_t = "<tr><td>" + _questions[num][0] + "<br><br></td></tr>";
+	for (i=0;i<_questions[num][1].length;i++){
+		_t += "<tr><td><div class=\"form_radio_btn\"><input type=\"radio\" name =\"q1\" id =\"ans"+i+"\" onclick=\"ans_clicked(this);\"data-value='" + _questions[num][2][i] + "'>" +	
+			"<label for=\"ans"+i+"\">" + _questions[num][1][i] + "</label></div></td></tr>";
+	}
+	_out.innerHTML = _t;
+}
+
+function showResulMessage(r){
+	let _message = "";
+	if (r >=0 && r <=2){
+		_message = '<p align="center"><span style="font-weight: bold; font-size: 120px">Ваша психологическая устойчивость гораздо ниже среднего, поэтому вы зависимы от мнения других людей. Вы не можете спокойно воспринимать чужой успех, потому что не верите в свой. Вы сомневаетесь в добрых намерениях других и думаете, что люди с радостью сделали бы вам га­дость, если бы у них появилась такая возможность.</font></p>';
+	}else if(r >=3 && r <=4){
+		_message = '<p align="center"><span style="font-weight: bold; font-size: 120px">Ваша психологическая устойчивость на среднем уровне или немного ниже среднего. Вы слишком критично относитесь к се­бе и от этого игнорируете свои до­стижения или даже забываете о них, зато хорошо помните неудачи. Это подрывает вашу веру в свои силы. Недостаток веры в себя объясняет, почему вы редко проводите много времени, думая о себе, — вы боитесь, что разные неприятности всплывут в памяти.</font></p>';
+	}else if(r >=5 && r <=7){
+		_message = '<p align="center"><span style="font-weight: bold; font-size: 120px">Ваша психологическая устойчивость выше средней, поэтому вы способен высказать собственное мнение, даже если оно расходится с общепринятым. Вы верите в действие, а не в ожида­ние, в силу воли, а не во всеобщее со­гласие.</font></p>';
+	}else{
+		_message = '<p align="center"><span style="font-weight: bold; font-size: 120px">Ваша психологическая устойчивость очень высока.</font></p>';
+	}
+	return _message;
+}
+
+function ans_clicked(_radio){
+	_r += parseInt(_radio.dataset.value);
+	_all_points = _r;
+	
+	_q_num++;
+	if (_q_num < _questions.length && !_show_result){
+		showQNum(_q_num);
+	}else{
+		_show_result = true;	
+		_result2.innerHTML = showResulMessage(_r);
+		_out.style.display = "none";
+		localStorage.setItem('mytestresult', _r);		
+	}
+}
+
+function fill_questions(){
+	_questions.push(["Чаще всего я предпочитаю скрывать свои истинные чувства от других людей",["Да","Нет"],[0,1]]);
+	_questions.push(["Если я в чем-то уверен - то я делаю это, не нуждаясь ни в чьих советах",["Да","Нет"],[1,0]]);
+	_questions.push(["Необходимость отстаивать свою точку зрения меня утомляет",["Да","Нет"],[0,1]]);
+	_questions.push(["Я откровенен со своими близкими, даже когда знаю, что мои слова им не слишком понравятся",["Да","Нет"],[1,0]]);
+	_questions.push(["Большинство моих успехов -результат игры случая или дружеской помощи",["Да","Нет"],[0,1]]);
+
+	_questions.push(["Я доверяю своим собственным впечатлениям, даже если они не совпадают с мнением других",["Да","Нет"],[1,0]]);
+	_questions.push(["Я отказываюсь от рискованного мероприятия, если окружающие начинают активно меня отговаривать",["Да","Нет"],[0,1]]);
+	_questions.push(["Я думаю, что я ничуть не хуже других",["Да","Нет"],[1,0]]);
+	_questions.push(["Мне неприятно копаться в собственных чувствах и мыслях",["Да","Нет"],[0,1]]);
+	_questions.push(["Я принес много пользы другим людям",["Да","Нет"],[1,0]]);
+
+}
+</script>
+</body>
+</html>

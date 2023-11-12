@@ -1,0 +1,182 @@
+﻿<html>
+<head>
+	<meta charset="utf-8">
+	<title>Тести</title>
+</head>
+<body>
+
+<style>
+
+table {
+    width: 600px; /* Ширина таблицы */
+    border: 0px solid green; /* Рамка вокруг таблицы */
+    margin: auto; /* Выравниваем таблицу по центру окна  */
+    font-size: 60px; /* шрифт розмір*/
+   }
+
+.form_radio_btn {
+	display: inline-block;
+	margin-right: 10px;
+
+}
+.form_radio_btn input[type=radio] {
+	display: none;
+
+}
+.form_radio_btn label {/* кнопка текст*/
+	display: inline-block;
+	cursor: pointer;
+	padding: 40px 15px;
+	line-height: 140px;
+	border: 10px solid #999;
+	border-radius: 40px;
+	user-select: none;
+	width: 490px;
+	text-align:center;
+
+               
+        
+}
+.form_radio_btn input[type=radio]:checked + label {
+	background: #ffe0a6;
+
+}
+.form_radio_btn label:hover {
+	color: #666;
+
+}
+</style>
+
+
+<p align="center"><span style="font-weight: bold; font-size: 50px">Постарайтесь вспомнить все события, случившиеся с Вами в течение <em>последнего</em> года:</font></p>
+
+
+<table id="tbl_contents">
+</table>
+<br>
+<span id="_r2"></span>
+<script>
+var _result2 = document.getElementById('_r2');
+var _out = document.getElementById('tbl_contents');
+
+var _questions = [];
+var _q_num = 0;
+var _all_points = 0;
+var _show_result = false;
+let _r = 0;
+
+if (checkIfDone()){
+	_result2.innerHTML = 'Ви вже пройшли тест.<br>Ваш резульат ' + _all_points + ' бал.';
+}else{
+	fill_questions();
+	showQNum(_q_num);
+}
+
+function checkIfDone(){
+	return false;
+	var _mytest = localStorage.getItem('mytestresult');
+	if (_mytest !== null){
+		_all_points = _mytest;
+		return true;
+	}
+	return false;
+}
+
+function showQNum(num){
+	var _t = "";
+	_t = "<tr><td>" + _questions[num][0] + "<br><br></td></tr>";
+	for (i=0;i<_questions[num][1].length;i++){
+		_t += "<tr><td><div class=\"form_radio_btn\"><input type=\"radio\" name =\"q1\" id =\"ans"+i+"\" onclick=\"ans_clicked(this);\"data-value='" + _questions[num][2][i] + "'>" +	
+			"<label for=\"ans"+i+"\">" + _questions[num][1][i] + "</label></div></td></tr>";
+	}
+	_out.innerHTML = _t;
+}
+
+function showResulMessage(r){
+	let _message = "";
+	if (r >=0 && r <=149){
+		_message = '<p align="center"><span style="font-weight: bold; font-size: 120px">Степень сопротивляемости стрессу большая</font></p>';
+	}else if(r >=150 && r <=199){
+		_message = '<p align="center"><span style="font-weight: bold; font-size: 120px">Степень сопротивляемости стрессу высокая</font></p>';
+	}else if(r >=200 && r <=299){
+		_message = '<p align="center"><span style="font-weight: bold; font-size: 120px">Степень сопротивляемости стрессу пороговая</font></p>';
+	}else{
+		_message = '<p align="center"><span style="font-weight: bold; font-size: 120px">Степень сопротивляемости стрессу низкая(ранимая).</font></p>';
+	}
+	return _message;
+}
+
+function ans_clicked(_radio){
+	_r += parseInt(_radio.dataset.value);
+	_all_points = _r;
+	
+	_q_num++;
+	if (_q_num < _questions.length && !_show_result){
+		showQNum(_q_num);
+	}else{
+		_show_result = true;	
+		_result2.innerHTML = showResulMessage(_r);
+		_out.style.display = "none";
+		localStorage.setItem('mytestresult', _r);		
+	}
+}
+
+function fill_questions(){
+               
+	_questions.push(["Смерть супруга (супруги).",["Да","Нет"],[100,0]]);
+	_questions.push(["Развод",["Да","Нет"],[73,0]]);
+	_questions.push(["Разъезд супругов (без оформления развода), разрыв с партнером.",["Да","Нет"],[65,0]]);
+	_questions.push(["Тюремное заключение.",["Да","Нет"],[63,0]]);
+	_questions.push(["Смерть близкого члена семьи.",["Да","Нет"],[63,0]]);
+
+	_questions.push(["Травма или болезнь",["Да","Нет"],[53,0]]);
+	_questions.push(["Женитьба, свадьба.",["Да","Нет"],[50,0]]);
+	_questions.push(["Увольнение с работы.",["Да","Нет"],[47,0]]);
+	_questions.push(["Примирение супругов.",["Да","Нет"],[45,0]]);
+      	_questions.push(["Уход на пенсию.",["Да","Нет"],[45,0]]);
+
+        _questions.push(["Изменение в состоянии здоровья членов семьи.",["Да","Нет"],[44,0]]);
+	_questions.push(["Беременность партнерши.",["Да","Нет"],[40,0]]);
+	_questions.push(["Межполовые проблемы.",["Да","Нет"],[39,0]]);
+	_questions.push(["Появление нового члена семьи, рождение ребенка.",["Да","Нет"],[39,0]]);
+      	_questions.push(["Реорганизация на работе.",["Да","Нет"],[39,0]]);
+
+        _questions.push(["Изменение финансового положения.",["Да","Нет"],[38,0]]);
+	_questions.push(["Смерть близкого друга.",["Да","Нет"],[37,0]]);
+	_questions.push(["Изменение профессиональной ориентации, смена места работы.",["Да","Нет"],[36,0]]);
+	_questions.push(["Усиление конфликтности отношений с супругом.",["Да","Нет"],[35,0]]);
+      	_questions.push(["Ссуда или заем на крупную покупку (например, дома).",["Да","Нет"],[31,0]]);
+
+        _questions.push(["Окончание срока выплаты ссуды или займа, растущие долги.",["Да","Нет"],[30,0]]);
+	_questions.push(["Изменение должности, повышение служебной ответственности.",["Да","Нет"],[29,0]]);
+	_questions.push(["Сын или дочь покидают дом.",["Да","Нет"],[29,0]]);
+	_questions.push(["Проблемы с родственниками мужа (жены).",["Да","Нет"],[29,0]]);
+      	_questions.push(["Выдающееся личное достижение, успех.",["Да","Нет"],[28,0]]);
+
+        _questions.push(["Супруг бросает работу (или приступает к работе).",["Да","Нет"],[26,0]]);
+	_questions.push(["Начало или окончание обучениям учебном заведении.",["Да","Нет"],[26,0]]);
+	_questions.push(["Изменение условий жизни.",["Да","Нет"],[25,0]]);
+	_questions.push(["Отказ от каких-то индивидуальных привычек, изменение стереотипов поведения.",["Да","Нет"],[24,0]]);
+      	_questions.push(["Проблемы с начальством, конфликты.",["Да","Нет"],[23,0]]);
+
+        _questions.push(["Изменение условий или часов работы.",["Да","Нет"],[20,0]]);
+	_questions.push(["Перемена места жительства.",["Да","Нет"],[20,0]]);
+	_questions.push(["Смена места обучения.",["Да","Нет"],[20,0]]);
+	_questions.push(["Изменение привычек, связанных с проведением досуга или отпуска.",["Да","Нет"],[19,0]]);
+      	_questions.push(["Изменение привычек, связанных с вероисповеданием.",["Да","Нет"],[19,0]]);
+
+        _questions.push(["Изменение социальной активности.",["Да","Нет"],[18,0]]);
+	_questions.push(["Ссуда или заем для покупки менее крупных вещей (машины, телевизора).",["Да","Нет"],[17,0]]);
+	_questions.push(["Изменение индивидуальных привычек, связанных со сном, нарушение сна.",["Да","Нет"],[16,0]]);
+	_questions.push(["Изменение числа живущих вместе членов семьи, изменение характера и частоты встреч с другими членами семьи.",["Да","Нет"],[15,0]]);
+      	_questions.push(["Изменение привычек, связанных с питанием (количество потребляемой пищи, диета, отсутствие аппетита и т. п.).",["Да","Нет"],[15,0]]);
+
+        _questions.push(["Отпуск.",["Да","Нет"],[13,0]]);
+	_questions.push(["Рождество, встреча Нового года, день рождения.",["Да","Нет"],[12,0]]);
+	_questions.push(["Незначительное нарушение правопорядка (штраф за нарушение правил уличного движения).",["Да","Нет"],[11,0]]);
+
+
+}
+</script>
+</body>
+</html>

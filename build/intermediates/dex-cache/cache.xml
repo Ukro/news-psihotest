@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="C:\andr_proj\news-uz\app\build\intermediates\exploded-aar\com.google.android.gms\play-services\6.5.87\jars\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="dd9247ea0fabe8ee479638c4b4a23e93752be256">
+        <dex dex="C:\andr_proj\news-uz\app\build\intermediates\pre-dexed\release\com.google.android.gms-play-services-6.5.87_2c23fca235fe6023d41fed274f5691539b1495bc.jar" />
+    </item>
+    <item
+        jar="C:\andr_proj\news-uz\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.0\jars\libs\internal_impl-21.0.0.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="1609e6d42d0480b0f4188e2c29f75388fa12a8f0">
+        <dex dex="C:\andr_proj\news-uz\app\build\intermediates\pre-dexed\release\internal_impl-21.0.0_8b641bc77e7f225933073959be854afd685c43c6.jar" />
+    </item>
+    <item
+        jar="C:\Users\1112-OsmachkoM\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\21.0.0\support-annotations-21.0.0.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="1a578b9607b36266c63d43a4fa0ab5664dbe911e">
+        <dex dex="C:\andr_proj\news-uz\app\build\intermediates\pre-dexed\release\support-annotations-21.0.0_4d18c1e6780f6546adce740fb7e5469eda78ccd6.jar" />
+    </item>
+    <item
+        jar="C:\andr_proj\news-uz\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.0\jars\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="686344a780033e4ba22b926cd225f8d4941247e6">
+        <dex dex="C:\andr_proj\news-uz\app\build\intermediates\pre-dexed\release\com.android.support-support-v4-21.0.0_3d6c3c4b6bd4cc3dd6ca70d8c435d774cf382357.jar" />
+    </item>
+
+</items>

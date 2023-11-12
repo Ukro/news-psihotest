@@ -1,0 +1,146 @@
+﻿<html>
+<head>
+	<meta charset="utf-8">
+	<title>Тести</title>
+</head>
+<body>
+
+<style>
+
+table {
+    width: 600px; /* Ширина таблицы */
+    border: 0px solid green; /* Рамка вокруг таблицы */
+    margin: auto; /* Выравниваем таблицу по центру окна  */
+    font-size: 60px; /* шрифт розмір*/
+   }
+
+.form_radio_btn {
+	display: inline-block;
+	margin-right: 10px;
+
+}
+.form_radio_btn input[type=radio] {
+	display: none;
+
+}
+.form_radio_btn label {/* кнопка текст*/
+	display: inline-block;
+	cursor: pointer;
+	padding: 40px 15px;
+	line-height: 140px;
+	border: 10px solid #999;
+	border-radius: 40px;
+	user-select: none;
+	width: 490px;
+	text-align:center;
+
+               
+        
+}
+.form_radio_btn input[type=radio]:checked + label {
+	background: #ffe0a6;
+
+}
+.form_radio_btn label:hover {
+	color: #666;
+
+}
+</style>
+
+<table id="tbl_contents">
+</table>
+
+<br>
+<span id="_r2"></span>
+<script>
+var _result2 = document.getElementById('_r2');
+var _out = document.getElementById('tbl_contents');
+
+var _questions = [];
+var _q_num = 0;
+var _all_points = 0;
+var _show_result = false;
+let _r = 0;
+
+if (checkIfDone()){
+	_result2.innerHTML = 'Ви вже пройшли тест.<br>Ваш резульат ' + _all_points + ' бал.';
+}else{
+	fill_questions();
+	showQNum(_q_num);
+}
+
+function checkIfDone(){
+	return false;
+	var _mytest = localStorage.getItem('mytestresult');
+	if (_mytest !== null){
+		_all_points = _mytest;
+		return true;
+	}
+	return false;
+}
+
+function showQNum(num){
+	var _t = "";
+	_t = "<tr><td>" + _questions[num][0] + "<br><br></td></tr>";
+	for (i=0;i<_questions[num][1].length;i++){
+		_t += "<tr><td><div class=\"form_radio_btn\"><input type=\"radio\" name =\"q1\" id =\"ans"+i+"\" onclick=\"ans_clicked(this);\"data-value='" + _questions[num][2][i] + "'>" +	
+			"<label for=\"ans"+i+"\">" + _questions[num][1][i] + "</label></div></td></tr>";
+	}
+	_out.innerHTML = _t;
+}
+
+function showResulMessage(r){
+	let _message = "";
+	if (r >=0 && r <=5){
+		_message = '<p align="center"><span style="font-weight: bold; font-size: 120px">Стремление заслужить одобрения значимых окружающих людей у вас низкое </font></p>';
+	}else if(r >=6 && r <=14){
+		_message = '<p align="center"><span style="font-weight: bold; font-size: 120px">Стремление заслужить одобрения значимых окружающих людей у вас среднее</font></p>';
+	}else{
+		_message = '<p align="center"><span style="font-weight: bold; font-size: 120px">Стремление заслужить одобрения значимых окружающих людей у вас высокое</font></p>';
+	}
+	return _message;
+}
+
+function ans_clicked(_radio){
+	_r += parseInt(_radio.dataset.value);
+	_all_points = _r;
+	
+	_q_num++;
+	if (_q_num < _questions.length && !_show_result){
+		showQNum(_q_num);
+	}else{
+		_show_result = true;	
+		_result2.innerHTML = showResulMessage(_r);
+		_out.style.display = "none";
+		localStorage.setItem('mytestresult', _r);		
+	}
+}
+
+function fill_questions(){
+	_questions.push(["Я внимательно читаю каждую книгу, прежде чем вернуть ее в библиотеку",["Да","Нет"],[1,0]]);
+	_questions.push(["Я не испытываю колебаний, когда кому-нибудь нужно помочь в беде.",["Да","Нет"],[1,0]]);
+	_questions.push(["Я всегда внимательно слежу за тем, как я одет.",["Да","Нет"],[1,0]]);
+	_questions.push(["Дома я веду себя за столом так же, как в столовой.",["Да","Нет"],[1,0]]);
+	_questions.push(["Я никогда ни к кому не испытывал антипатии.",["Да","Нет"],[1,0]]);
+	_questions.push(["Был(и) случай(и), когда я бросил что-то делать, потому что не был уверен в своих силах.",["Да","Нет"],[0,1]]);
+	_questions.push(["Иногда я люблю позлословить об отсутствующих.",["Да","Нет"],[0,1]]);
+	_questions.push(["Я всегда внимательно слушаю собеседника, кто бы он ни был.",["Да","Нет"],[1,0]]);
+	_questions.push(["Был случай, когда я придумал вескую причину, чтобы оправдаться.",["Да","Нет"],[0,1]]);
+	_questions.push(["Случалось, я пользовался оплошностью человека.",["Да","Нет"],[0,1]]);
+	_questions.push(["Иногда вместо того, чтобы простить человека, я стараюсь отплатить ему тем же.",["Да","Нет"],[0,1]]);
+	_questions.push(["Были случаи, когда я настаивал на том, чтобы делали по-моему.",["Да","Нет"],[0,1]]);
+	_questions.push(["У меня не возникает внутреннего протеста, когда меня просят оказать услугу.",["Да","Нет"],[1,0]]);
+	_questions.push(["У меня никогда не возникает досады, когда высказывают мнение, противоположное моему.",["Да","Нет"],[1,0]]);
+	_questions.push(["Перед длительной поездкой я всегда тщательно продумываю, что с собой взять.",["Да","Нет"],[1,0]]);
+	_questions.push(["Были случаи, когда я завидовал удаче других.",["Да","Нет"],[0,1]]);
+	_questions.push(["Иногда меня раздражают люди, которые обращаются ко мне с просьбой.",["Да","Нет"],[0,1]]);
+	_questions.push(["Когда у людей неприятности, я иногда думаю, что они получили по заслугам.",["Да","Нет"],[0,1]]);	
+	_questions.push(["Я никогда с улыбкой не говорил неприятных вещей.",["Да","Нет"],[1,0]]);
+
+
+
+}
+</script>
+
+</body>
+</html>
